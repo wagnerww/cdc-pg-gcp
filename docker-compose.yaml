@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  postgres_cdc:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+      POSTGRES_INITDB_ARGS: "--wal-segsize=64"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    command: ["postgres", "-c", "wal_level=logical", "-c", "max_replication_slots=4", "-c", "max_wal_senders=4"]
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./postgre/data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  debezium-server:
+    image: debezium/server:2.5
+    container_name: debezium-server
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/credentials/service-account.json
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./conf/service-account.json:/tmp/credentials/service-account.json
+      - ./conf/:/debezium/conf
+      - ./data:/data
+    depends_on:
+      - postgres_cdc
