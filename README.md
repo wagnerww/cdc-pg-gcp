@@ -37,12 +37,12 @@ A estrutura básica do repositório é a seguinte:
 └── README.md                 # Documentação do projeto
 ```
 ### 3. Configurações Necessárias
-1 - Altere a propriedade `debezium.sink.pubsub.project.id` do arquivo que está em `conf/application.properties`, informando o projeto no GCP;
-2 - Crie os tópicos: `clientes-enderecos-cdc` e `clientes-cdc` no Google Pub/sub do seu projeto;
+1 - Altere a propriedade `debezium.sink.pubsub.project.id` do arquivo que está em `conf/application.properties`, informando o projeto no GCP;  
+2 - Crie os tópicos: `clientes-enderecos-cdc` e `clientes-cdc` no Google Pub/sub do seu projeto;  
 
 ### 3. Executando
 
     docker-compose up -d
 
 ### 4.Melhorias
-    É possível criar vários debezium-server para monitorar outras tabelas, ou apenas as necessárias.
+É possível criar vários debezium-server para monitorar outras tabelas, ou apenas as necessárias.
